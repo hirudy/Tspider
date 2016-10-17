@@ -23,7 +23,7 @@ class MysqlOperation{
         $dbConnection->set_charset($charset);
         $this->dbConnection = $dbConnection;
     }
-    
+
     public function __destruct(){
         if ($this->dbConnection){
             // 操作对象销毁时候，关闭连接
@@ -36,7 +36,7 @@ class MysqlOperation{
      * @return bool
      */
     public function ping(){
-//        $autoReconnect = empty(ini_get('mysqli.reconnect'));
+        //        $autoReconnect = empty(ini_get('mysqli.reconnect'));
         try{
             if(@$this->dbConnection->ping()){
                 return true;
@@ -200,7 +200,7 @@ class MysqlOperation{
         $fields = array_keys($arr);
         $tempArr = array_fill(0,count($fields),'?');
         $params = array_values($arr);
-        
+
         foreach ($fields as $index => $row){
             $fields[$index] = "`{$row}`";
         }
@@ -236,10 +236,10 @@ class MysqlOperation{
             $params = array_merge($params,$temp);
         }
         $tempArrString = implode(',',$tempArr);
-        
-        
+
+
         $sql = "insert `{$table}`{$fields} values{$tempArrString};";
-        return $this->query($sql,$params);  
+        return $this->query($sql,$params);
     }
 
 
@@ -259,6 +259,7 @@ class MysqlOperation{
 
 
 class TMysql{
+    const VERSION = '1.0.1';            // 组件版本号
     private static $dbConnectionPool = array();
     private static $configs = array();
 

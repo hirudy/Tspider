@@ -8,17 +8,18 @@
  */
 
 class RedisOperation extends \Redis{
-    
+
     public function __destruct(){
         @$this->close();
     }
 }
 
 class RedisOperationException extends \RedisException{
-    
+
 }
 
 class TRedis {
+    const VERSION = '1.0.1';            // 组件版本号
     public static $maxConnectionTime = 5;   // 最大连接时间
     protected static $connectionPool = array(); // 连接池对象
 
@@ -41,7 +42,7 @@ class TRedis {
         }
         return $response;
     }
-    
+
     /**
      * 加载单个配置文件
      * @param array $configArr
@@ -129,19 +130,16 @@ class TRedis {
 if(strtolower(PHP_SAPI) == 'cli' && isset($argv) && basename(__FILE__) == basename($argv[0])){
     $config = array(
         'connectionName' => 'cacheRd',
-        'host'=> '*.*.*.*',
-//        'password' => '*****',
-        'database' => 1,
+        'host'=> '115.28.149.242',
+        'password' => '',
+        'database' => 0,
         'port' => 6379,
-        'prefix' => 'redis_test_',
-        'checkConnection' => true
+        'prefix' => '',
+        'checkConnection' => false
     );
 
     TRedis::loadOneConfig($config);
     $redis = TRedis::getConnection('cacheRd');
-//    $redis->hSet('h', 'key1', 'hello');
-//    $redis->expire('h',10);
     echo $redis->dbSize();
     print_r($redis->keys('*'));
-//    print_r($testString);
 }
